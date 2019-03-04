@@ -1,11 +1,14 @@
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Conjunto {
+
     String nome;
     ArrayList<Integer> elementos = new ArrayList<>();
 
     public Conjunto(String linha) {
-        nome = ""+linha.charAt(0);
+        nome = "" + linha.charAt(0);
         String numero = "";
         linha = linha.replace(" ", "");       //remove todos s espacos
         for (int i = 0; i < linha.length(); i++) {
@@ -21,15 +24,37 @@ public class Conjunto {
         }
     }
 
-    public void imprimeItens() {
-        System.out.print("{");
-        for (int i = 0; i < elementos.size(); i++) {
-            System.out.print(elementos.get(i));
-            if (i!=elementos.size()-1) {
-                System.out.print(",");
+    public Conjunto() {
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    
+    public void addElemento(Integer elemento){
+        boolean adicionar = true;
+        for (Integer e : elementos) {
+            if (Objects.equals(elemento, e)) {
+                adicionar = false;
+                break;
             }
         }
-        System.out.println("}");
+        if (adicionar) {
+            elementos.add(elemento);
+        }
+    }
+    public String imprime() {
+        String impresao = this.nome;
+        impresao += " = {";
+        for (int i = 0; i < elementos.size(); i++) {
+            impresao += elementos.get(i);
+            if (i != elementos.size() - 1) {
+                impresao += ",";
+            }
+        }
+        impresao += "}";
+        return impresao;
     }
 
     @Override

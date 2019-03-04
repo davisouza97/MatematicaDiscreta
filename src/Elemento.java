@@ -8,10 +8,16 @@ public class Elemento {
         valor = Integer.parseInt(linha.substring(index+1));
     }
 
-    @Override
+    Elemento(Integer i) {
+        valor = i;
+    }
+ 
+    public String imprime(){
+    return nome +" = "+valor;
+    }
+    
+     @Override
     public String toString() {
         return nome;
     }
-    
-    
 }
