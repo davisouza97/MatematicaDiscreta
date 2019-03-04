@@ -26,11 +26,10 @@ public class Conjunto {
 
     public Conjunto() {
     }
-
+    
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
     
     public void addElemento(Integer elemento){
         boolean adicionar = true;
@@ -44,9 +43,10 @@ public class Conjunto {
             elementos.add(elemento);
         }
     }
+    
     public String imprime() {
-        String impresao = this.nome;
-        impresao += " = {";
+        String impresao = "";
+        impresao += "{";
         for (int i = 0; i < elementos.size(); i++) {
             impresao += elementos.get(i);
             if (i != elementos.size() - 1) {

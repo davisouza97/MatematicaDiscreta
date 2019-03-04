@@ -14,9 +14,9 @@ public class Main {
         ArrayList<Conjunto> conjuntos = new ArrayList<>();
         ArrayList<Elemento> elementos = new ArrayList<>();
 
-        Scanner ler = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
         System.out.println("Informe o nome do arquivo");
-        String nomeArquivo = ler.nextLine();
+        String nomeArquivo = input.nextLine();
         FileReader arq = new FileReader(nomeArquivo + ".txt");
         BufferedReader lerArq = new BufferedReader(arq);
 
@@ -45,7 +45,7 @@ public class Main {
             System.out.println("        7- Conjunto das Partes (P(A))");
             System.out.println("        0- para SAIR ");
             System.out.println("-------------------------------------");
-            menu = ler.nextInt();
+            menu = input.nextInt();
             if (menu == 1) {
                 Pertence(conjuntos.get(0), elementos.get(0));
             }
@@ -57,6 +57,12 @@ public class Main {
             }
             if (menu == 5) {
                 Intersecao(conjuntos);
+            }
+            if (menu == 6) {
+                ProdutoCartesiano(conjuntos);
+            }
+            if (menu == 7) {
+                ConjuntoPartes(conjuntos);
             }
         } while (menu != 0);
     }
@@ -72,8 +78,6 @@ public class Main {
 
     private static boolean Pertence(Conjunto c, Elemento e) {
         boolean pertence = false;
-        System.out.println("Trabalhando com o elemento " + e.imprime());
-        System.out.println("Trabalhando com o conjunto " + c.imprime());
         for (Integer i : c.elementos) {
             if (e.valor == i) {
                 pertence = true;
@@ -134,7 +138,6 @@ public class Main {
     private static void Intersecao(ArrayList<Conjunto> conjuntos) {
         Conjunto intersecao = new Conjunto();
         intersecao.setNome("Conjunto Intersecao");
-
         boolean pertence = true;
         for (Conjunto c : conjuntos) {
             for (Integer i : c.elementos) {
@@ -162,4 +165,54 @@ public class Main {
 
     }
 
+    private static void ProdutoCartesiano(ArrayList<Conjunto> conjuntos) {
+        ClasseProdutoCartesiano pc = new ClasseProdutoCartesiano();
+        Conjunto a = conjuntos.get(0);
+        Conjunto b = conjuntos.get(1);
+        for (Integer itensA : a.elementos) {
+            for (Integer itensB : b.elementos) {
+                pc.adicionar(itensA, itensB);
+            }
+        }
+        System.out.println("Produto Cartesiano " + a +" \u2716 "+b+" = {");
+        for (String itensPc : pc.itens) {
+            System.out.print("\u276e");
+            System.out.print(itensPc);
+            System.out.print("\u2771");
+        }
+        Scanner input = new Scanner(System.in);
+        System.out.println("");
+        System.out.println("Reverter operação?(s/n)");
+        String reverter = input.next();
+        if (reverter.equalsIgnoreCase("s")) {
+            Conjunto aReverso = new Conjunto();
+            Conjunto bReverso = new Conjunto();
+            for (String c : pc.itens) {
+                int index = c.indexOf(",");
+                aReverso.addElemento(Integer.parseInt(c.substring(0, index)));
+                bReverso.addElemento(Integer.parseInt(c.substring(index+1)));
+            }
+            System.out.print("Primeiro conjunto revertido = ");
+            System.out.println(aReverso.imprime());
+            System.out.print("Segundo conjunto revertido = ");
+            System.out.println(bReverso.imprime());
+        }
+    }
+
+    private static void ConjuntoPartes(ArrayList<Conjunto> conjuntos) {
+        Conjunto a = conjuntos.get(0);
+        ConjPartes cp = new ConjPartes();
+        cp.teste(a.elementos);
+        
+    
+    
+    
+    
+    
+    
+    
+    
+ 
+    
+    }
 }
