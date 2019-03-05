@@ -1,47 +1,50 @@
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
+import java.util.Scanner;
 import java.util.TreeSet;
+import org.apache.commons.lang3.SerializationUtils;
 
-public class ConjPartes {
+public class ConjPartes implements Serializable {
 
-    void teste(ArrayList a){
-        ArrayList<Integer> conjuntoEntrada = a;
-        
-        ArrayList<SortedSet<Comparable>> conjuntoDasPartes = new ArrayList<>(); //aqui vai ficar a resposta
-        for (Integer item : conjuntoEntrada) {
-            conjuntoDasPartes.add(new TreeSet<Comparable>(Arrays.asList(item))); //insiro a combinação "1 a 1" de cada item
+    void teste(ArrayList<Integer> entrada) {
+        ArrayList<TreeSet<Integer>> x = new ArrayList<>();
+
+        for (Integer integer : entrada) {
+            x.add(new TreeSet<>());
+            x.get(x.size() - 1).add(integer);
         }
-        for (int i = 1; i < conjuntoEntrada.size(); i++) {
-            List<SortedSet<Comparable>> statusAntes = new ArrayList<>(conjuntoDasPartes); //crio uma cópia para poder não iterar sobre o que já foi
-            for (Set<Comparable> antes : statusAntes) {
-                SortedSet<Comparable> novo = new TreeSet<>(antes); //para manter ordenado os objetos dentro do set
-                novo.add(conjuntoEntrada.get(i));
-                if (!conjuntoDasPartes.contains(novo)) { //testo para ver se não está repetido
-                    conjuntoDasPartes.add(novo);
+
+        for (int i = 0; i < entrada.size(); i++) {
+            List<TreeSet<Integer>> controle = SerializationUtils.clone(x);
+            for (TreeSet antes : controle) {
+                TreeSet agora = SerializationUtils.clone(antes);
+                agora.add(entrada.get(i));
+                if (!x.contains(agora)) {
+                    x.add(agora);
                 }
             }
         }
-        Collections.sort(conjuntoDasPartes, new Comparator<SortedSet<Comparable>>() { //aqui só para organizar a saída de modo "bonitinho"
-            @Override
-            public int compare(SortedSet<Comparable> o1, SortedSet<Comparable> o2) {
-                int sizeComp = o1.size() - o2.size();
-                if (sizeComp == 0) {
-                    Iterator<Comparable> o1iIterator = o1.iterator();
-                    Iterator<Comparable> o2iIterator = o2.iterator();
-                    while (sizeComp == 0 && o1iIterator.hasNext()) {
-                        sizeComp = o1iIterator.next().compareTo(o2iIterator.next());
-                    }
+        x.add(new TreeSet());
+        System.out.println("Conjunto das partes: "+x);
+        Scanner input = new Scanner(System.in);
+        System.out.println("");
+        System.out.println("Reverter operação?(s/n)");
+        String reverter = input.next();
+        if (reverter.equalsIgnoreCase("s")) {
+        TreeSet resultado = new TreeSet();
+            for (TreeSet arvore: x) {
+                for (int i = 0; i < arvore.size(); i++) {
+                    resultado.add(arvore.first());
+                    arvore.remove(arvore.first());
                 }
-                return sizeComp;
             }
-        });
-        System.out.println(conjuntoDasPartes);
+            System.out.println("Resultado : "+resultado);
+        }
     }
 }

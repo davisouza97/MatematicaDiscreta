@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -47,22 +46,59 @@ public class Main {
             System.out.println("-------------------------------------");
             menu = input.nextInt();
             if (menu == 1) {
-                Pertence(conjuntos.get(0), elementos.get(0));
+                if (conjuntos.size() == 0 || elementos.size() == 0) {
+                    System.out.println("Falta operandos para realizar a operacao");
+                } else {
+                    if (Pertence(conjuntos.get(0), elementos.get(0).valor)) {
+                        System.out.println(elementos.get(0) + " \u2208 " + conjuntos.get(0));
+                    } else {
+                        System.out.println(elementos.get(0) + " \u2209 " + conjuntos.get(0));
+                    }
+                }
             }
             if (menu == 2 || menu == 3) {
-                Contido(conjuntos.get(0), conjuntos.get(1));
+                if (conjuntos.size() < 2) {
+                    System.out.println("Falta operandos para realizar a operacao");
+                } else {
+                    if (Contido(conjuntos.get(0), conjuntos.get(1))) {
+                        if (Contido(conjuntos.get(1), conjuntos.get(0))) {
+                            System.out.println(conjuntos.get(0) + " Contido Propriamente" + conjuntos.get(1));
+                        } else {
+                            System.out.println(conjuntos.get(0) + " Contido " + conjuntos.get(1));
+                        }
+                    } else {
+                        System.out.println("Nao Contido");
+                    }
+
+                }
             }
             if (menu == 4) {
-                Uniao(conjuntos);
+                if (conjuntos.size() < 2) {
+                    System.out.println("Falta operandos para realizar a operacao");
+                } else {
+                    Uniao(conjuntos);
+                }
             }
             if (menu == 5) {
-                Intersecao(conjuntos);
+                if (conjuntos.size() < 2) {
+                    System.out.println("Falta operandos para realizar a operacao");
+                } else {
+                    Intersecao(conjuntos);
+                }
             }
             if (menu == 6) {
-                ProdutoCartesiano(conjuntos);
+                if (conjuntos.size() < 2) {
+                    System.out.println("Falta operandos para realizar a operacao");
+                } else {
+                    ProdutoCartesiano(conjuntos);
+                }
             }
             if (menu == 7) {
-                ConjuntoPartes(conjuntos);
+                if (conjuntos.size() < 1) {
+                    System.out.println("Falta operandos para realizar a operacao");
+                } else {
+                    ConjuntoPartes(conjuntos);
+                }
             }
         } while (menu != 0);
     }
@@ -76,43 +112,24 @@ public class Main {
         }
     }
 
-    private static boolean Pertence(Conjunto c, Elemento e) {
+    private static boolean Pertence(Conjunto c, Integer e) {
         boolean pertence = false;
         for (Integer i : c.elementos) {
-            if (e.valor == i) {
+            if (e == i) {
                 pertence = true;
                 break;
             }
-        }
-        if (pertence) {
-            System.out.println(e + " \u2208 " + c);
-        } else {
-            System.out.println(e + " \u2209 " + c);
         }
         return pertence;
     }
 
     private static boolean Contido(Conjunto c1, Conjunto c2) {
-        boolean contido = false;
+        boolean contido = true;
         for (Integer a : c1.elementos) {            //verifica se cada elemento de c1 esta em c2
-            contido = false;
-            for (Integer b : c2.elementos) {
-                if (Objects.equals(a, b)) {
-                    contido = true;
-                }
-            }
-            if (!contido) {
+            if (!Pertence(c2, a)) {
+                contido = false;
                 break;
             }
-        }
-        if (contido) {
-            if (Contido(c2, c1)) {
-                System.out.println(c1 + "\u2282 " + c2);    //contido propriamente
-            } else {
-                System.out.println(c1 + "\u2286" + c2);   //contido ou igual
-            }
-        } else {
-            System.out.println(c1 + "\u2288" + c2);         //VERIFICAR DIFERENCA DE NAO CONTIDO E DENAO CONTIDO PROPRIAMENTE 
         }
         return contido;
     }
@@ -143,7 +160,7 @@ public class Main {
             for (Integer i : c.elementos) {
                 pertence = true;
                 for (Conjunto conjunto : conjuntos) {
-                    if (!Pertence(conjunto, new Elemento(i))) {
+                    if (!Pertence(conjunto, i)) {
                         pertence = false;
                         break;
                     }
@@ -174,7 +191,7 @@ public class Main {
                 pc.adicionar(itensA, itensB);
             }
         }
-        System.out.println("Produto Cartesiano " + a +" \u2716 "+b+" = {");
+        System.out.println("Produto Cartesiano " + a + " \u2716 " + b + " = {");
         for (String itensPc : pc.itens) {
             System.out.print("\u276e");
             System.out.print(itensPc);
@@ -190,7 +207,7 @@ public class Main {
             for (String c : pc.itens) {
                 int index = c.indexOf(",");
                 aReverso.addElemento(Integer.parseInt(c.substring(0, index)));
-                bReverso.addElemento(Integer.parseInt(c.substring(index+1)));
+                bReverso.addElemento(Integer.parseInt(c.substring(index + 1)));
             }
             System.out.print("Primeiro conjunto revertido = ");
             System.out.println(aReverso.imprime());
@@ -200,19 +217,7 @@ public class Main {
     }
 
     private static void ConjuntoPartes(ArrayList<Conjunto> conjuntos) {
-        Conjunto a = conjuntos.get(0);
-        ConjPartes cp = new ConjPartes();
-        cp.teste(a.elementos);
-        
-    
-    
-    
-    
-    
-    
-    
-    
- 
-    
+        ConjPartes alt = new ConjPartes();
+        alt.teste(conjuntos.get(0).elementos);
     }
 }
