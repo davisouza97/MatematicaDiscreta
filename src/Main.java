@@ -61,7 +61,7 @@ public class Main {
                     System.out.println("Falta operandos para realizar a operacao");
                 } else {
                     if (Contido(conjuntos.get(0), conjuntos.get(1))) {
-                        if (Contido(conjuntos.get(1), conjuntos.get(0))) {
+                        if (!Contido(conjuntos.get(1), conjuntos.get(0))) {
                             System.out.println(conjuntos.get(0) + " Contido Propriamente" + conjuntos.get(1));
                         } else {
                             System.out.println(conjuntos.get(0) + " Contido " + conjuntos.get(1));
