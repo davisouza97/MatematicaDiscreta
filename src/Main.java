@@ -12,7 +12,7 @@ public class Main {
 
         ArrayList<Conjunto> conjuntos = new ArrayList<>();
         ArrayList<Elemento> elementos = new ArrayList<>();
-
+        
         Scanner input = new Scanner(System.in);
         System.out.println("Informe o nome do arquivo");
         String nomeArquivo = input.nextLine();

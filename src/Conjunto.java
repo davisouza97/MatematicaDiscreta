@@ -26,24 +26,17 @@ public class Conjunto {
 
     public Conjunto() {
     }
-    
+
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    public void addElemento(Integer elemento){
-        boolean adicionar = true;
-        for (Integer e : elementos) {
-            if (Objects.equals(elemento, e)) {
-                adicionar = false;
-                break;
-            }
-        }
-        if (adicionar) {
+
+    public void addElemento(Integer elemento) {
+        if (!this.elementos.contains(elemento)) {
             elementos.add(elemento);
         }
     }
-    
+
     public String imprime() {
         String impresao = "";
         impresao += "{";
